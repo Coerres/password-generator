@@ -32,6 +32,9 @@ def generate_password(min_Length, numbers=True, special_characters=True):
         if special_characters:
             meets_criteria = meets_criteria and has_special
 
+    return pwd
 
 
-generate_password(10)
+min_length =  int (input("Enter the minimum lenth: "))
+pwd = generate_password(10)
+print(pwd)
