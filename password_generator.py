@@ -26,6 +26,11 @@ def generate_password(min_Length, numbers=True, special_characters=True):
         elif new_char in special:
             has_special = True
 
+        meets_criteria = True
+        if numbers:
+            meets_criteria = has_number
+        if special_characters:
+            meets_criteria = meets_criteria and has_special
 
 
 
