@@ -1,12 +1,12 @@
 import random
 import string
+import pyperclip
 
-def generate_password(min_Length, numbers=True, special_characters=True):
-    letters = string.ascii_letters
-    digits = string.digits
-    special = string.punctuation
+def generate_password(min_Length: int, numbers: bool = True, special_characters: bool = True) -> str:
+    characters: str = string.ascii_letters
+    digits: str = string.digits
+    special: str = string.punctuation
 
-    characters = letters
     if numbers:
         characters += digits
     if special_characters:
@@ -27,6 +27,7 @@ def generate_password(min_Length, numbers=True, special_characters=True):
             has_special = True
 
         meets_criteria = True
+
         if numbers:
             meets_criteria = has_number
         if special_characters:
@@ -35,8 +36,29 @@ def generate_password(min_Length, numbers=True, special_characters=True):
     return pwd
 
 
-min_length =  int (input("Enter the minimum lenth: "))
-has_number = input("Do you want to have numbers  (y/n)?").lower() == "y"
-has_special = input("Do you want to have special characters (y/n)?").lower() == "y"
-pwd = generate_password(min_length, has_number, has_special )
-print("The generated password is:", pwd)
+def input_dialogue():
+    min_length: int = int(input("Enter the minimum lenth: "))
+    has_number: bool = input("Do you want to have numbers  (y/n)?").lower() == "y"
+    has_special: bool = input("Do you want to have special characters (y/n)?").lower() == "y"
+    pwd = generate_password(min_Length=min_length, numbers=has_number, special_characters=has_special)
+    return pwd
+
+
+def copy_req(pwd: str) -> int:
+    copy = input("Would you like to copy the generated password to your clipboard (y/n)? ").lower() == "y"
+    if copy:
+        pyperclip.copy(pwd)
+        print("Password has been copied")
+        return 0
+    else:
+        print("password wont be copied")
+        return 0
+
+def main() -> int:
+    pwd: str = input_dialogue()
+    print(f"Your generated password is: {pwd}")
+    copy_req(pwd=pwd)
+    return 0
+
+if __name__ == '__main__':
+    main()
