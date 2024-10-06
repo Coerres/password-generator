@@ -1,6 +1,8 @@
 import random
 import string
 import pyperclip
+# defining this as a global variable to avoid scoping pain
+recent_passwords = []
 
 def generate_password(min_Length: int, numbers: bool = True, special_characters: bool = True) -> str:
     characters: str = string.ascii_letters
@@ -54,10 +56,62 @@ def copy_req(pwd: str) -> int:
         print("password wont be copied")
         return 0
 
+def list_passwords() -> int:
+    counter = 1
+    for password in recent_passwords:
+        print(f"{counter}. {password}")
+        counter += 1
+    selected_choice =input(f"Select a password to copy: ")
+    selected_choice =int(selected_choice)
+    if selected_choice <= 3 and selected_choice >= 1:
+        selected_index = selected_choice - 1
+        selected_password = recent_passwords[selected_index]
+        copy_req(selected_password)
+    else:
+        print("Select a valid password")
+        list_passwords()
+    return 0    
+    
+
+def print_logo() -> int:
+    print("""=====================================================
+     ___        _      _      _  _   ____               
+    / _ \ _   _(_) ___| | ___| || |_|  _ \ __ _ ___ ___ 
+    | | | | | | | |/ __| |/ /_  ..  _| |_) / _` / __/ __|
+    | |_| | |_| | | (__|   <|_      _|  __/ (_| \__ \___
+     \__\_\\__,_|_|\___|_|\_\ |_||_| |_|   \__,_|___/___/
+
+    ======================================================             
+                 """)
+    return 0
+
+def setup_dialogue():
+    print_logo()
+    select=input("Do you want to generate a password (gen) or see your last three passwords (ls)?")
+    if select=="gen":
+        pwd: str = input_dialogue()
+        print(f"Your generated password is: {pwd}")
+        if len(recent_passwords) >= 3:
+            recent_passwords.pop()
+            recent_passwords.insert(0, pwd)
+        elif len(recent_passwords) < 3:
+            recent_passwords.insert(0, pwd)
+        else:
+            pass
+
+        copy_req(pwd=pwd)
+        main()
+
+    elif select == "ls":
+        list_passwords()
+        main()
+
+
+    
+
 def main() -> int:
-    pwd: str = input_dialogue()
-    print(f"Your generated password is: {pwd}")
-    copy_req(pwd=pwd)
+    setup_dialogue()
+
     return 0
 
 if __name__ == '__main__':
