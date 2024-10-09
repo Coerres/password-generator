@@ -50,6 +50,7 @@ def list_passwords() -> int:
         copy_req(selected_password)
 
 
+
     else:
         print("Select a valid password")
         list_passwords()

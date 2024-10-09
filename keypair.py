@@ -114,3 +114,4 @@ def gen_keypair(bits: int = 1024) -> KeyPair:
 def key_copy_req(private_key, public_key):
     export_string = str(public_key) + " , " + str(private_key)
     pyperclip.copy(export_string)
+
