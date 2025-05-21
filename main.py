@@ -1,6 +1,7 @@
 from password import list_passwords, verify_recent_password_length
 from keypair import print_key_logo, gen_keypair, recent_keypairs, key_copy_req, list_keypairs
 from ssh_keypair import ssh_setup
+from pwd_strenght_tester import password_strength
 
 
 def print_logo() -> int:
@@ -17,13 +18,18 @@ def print_logo() -> int:
 
 
 def password_setup():
-    select = input("Do you want to generate a password (gen) or see your last three passwords (ls)? ")
-    if select == "gen":
-        verify_recent_password_length()
-        main()
-    elif select == "ls":
-        list_passwords()
-        main()
+    select = input("Do you want to generate a password (gen) or see your last three passwords (ls), or check the (s)trenght of an existining password? ")
+    match select:
+        case "gen":
+            verify_recent_password_length()
+            main()
+        case "ls":
+            list_passwords()
+            main()
+        case "s":
+            password = input("Enter a password to check its strength: ")
+            password_strength(password)
+            main()
 
 
 def key_setup():
@@ -65,7 +71,7 @@ def key_setup():
 
 def setup_dialogue():
     print_logo()
-    selection = input("Would you like to generate a password (pwd), generate a keypair (key) or an SSH keypair (ssh): ")
+    selection = input("Would you like to generate a password (pwd), generate a keypair (key) or an SSH keypair (ssh) or check the (s)trength of an existing password: ")
     match selection:
         case "pwd":
             password_setup()
@@ -73,6 +79,10 @@ def setup_dialogue():
             key_setup()
         case "ssh":
             ssh_setup()
+        case "s":
+            password = input("Enter a password to check its strength: ")
+            password_strength(password)
+            main()
         # failcase if none of the cases above match
         case _:
             print("You have not entered any valid option, attempt again")
